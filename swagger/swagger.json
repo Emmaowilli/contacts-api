@@ -1,0 +1,57 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Contacts API",
+    "description": "API for managing contacts",
+    "version": "1.0.0"
+  },
+  "servers": [
+    { "url": "http://localhost:8080" },
+    { "url": "https://contacts-api-fqaz.onrender.com" }
+  ],
+  "paths": {
+    "/contacts": {
+      "get": { "summary": "Get all contacts" },
+      "post": {
+        "summary": "Create contact",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Contact" }
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{id}": {
+      "get": {
+        "summary": "Get contact by ID",
+        "parameters": [{ "name": "id", "in": "path", "required": true }]
+      },
+      "put": {
+        "summary": "Update contact",
+        "parameters": [{ "name": "id", "in": "path", "required": true }]
+      },
+      "delete": {
+        "summary": "Delete contact",
+        "parameters": [{ "name": "id", "in": "path", "required": true }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Contact": {
+        "type": "object",
+        "required": ["firstName", "lastName", "email", "favoriteColor", "birthday"],
+        "properties": {
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "email": { "type": "string" },
+          "favoriteColor": { "type": "string" },
+          "birthday": { "type": "string" }
+        }
+      }
+    }
+  }
+}

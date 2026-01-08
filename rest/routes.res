@@ -1,19 +1,8 @@
-### Get all contacts (LOCAL)
-GET http://localhost:8080/contacts
-
-
-### Get all contacts (RENDER)
-GET https://contacts-api-fqaz.onrender.com/contacts
-
-contact.js
-const express = require('express');
-const router = express.Router();
-
 ### GET all contacts
 GET http://localhost:8080/contacts
 
 ### GET contact by ID
-GET http://localhost:8080/contacts?id=PASTE_ID_HERE
+GET http://localhost:8080/contacts/PASTE_ID_HERE
 
 ### POST new contact
 POST http://localhost:8080/contacts
