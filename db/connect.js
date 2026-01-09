@@ -1,32 +1,45 @@
-const MongoClient = require('mongodb').MongoClient;
+// db/connect.js
+const { MongoClient } = require('mongodb');
 
-let database;
+let _db;
+let _client; // Keep reference to close old connections
 
-const connectToDb = (callback) => {
-  if (database) {
-    return callback();
+const initDb = async (callback) => {
+  if (_db) {
+    console.log('Closing old DB connection...');
+    await _client.close(); // Force close stale connection
+    _db = null;
+    _client = null;
   }
 
-  MongoClient.connect(process.env.MONGODB_URI)
-    .then((client) => {
-      database = client.db();
-      console.log('Connected to MongoDB');
-      callback();
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  try {
+    const uri = process.env.MONGODB_URI;
+    if (!uri) {
+      throw new Error('MONGODB_URI not defined in environment variables');
+    }
+
+    console.log('Connecting to MongoDB with URI:', uri.replace(/\/\/.*@/, '//<hidden>@')); // Log masked URI for debug
+
+    _client = new MongoClient(uri);
+    await _client.connect();
+    _db = _client.db(); // Uses DB from URI
+    console.log('Connected to MongoDB successfully. Database name:', _db.databaseName);
+    callback(null, _db);
+  } catch (err) {
+    console.error('MongoDB connection failed:', err.message);
+    callback(err);
+  }
 };
 
 const getDb = () => {
-  if (!database) {
-    throw Error('Database not initialized');
+  if (!_db) {
+    throw new Error('Database not initialized');
   }
-  return database;
+  return _db;
 };
 
 module.exports = {
-  connectToDb,
+  initDb,
   getDb
 };
 

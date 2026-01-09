@@ -1,7 +1,7 @@
 ### GET all contacts
 GET http://localhost:8080/contacts
 
-### GET contact by ID
+### GET contact by ID (replace PASTE_ID_HERE with actual ObjectId from MongoDB)
 GET http://localhost:8080/contacts/PASTE_ID_HERE
 
 ### POST new contact
@@ -16,7 +16,7 @@ Content-Type: application/json
   "birthday": "1991-02-10"
 }
 
-### PUT update contact
+### PUT update contact (replace PASTE_ID_HERE with actual ObjectId)
 PUT http://localhost:8080/contacts/PASTE_ID_HERE
 Content-Type: application/json
 
@@ -28,5 +28,5 @@ Content-Type: application/json
   "birthday": "1991-02-10"
 }
 
-### DELETE contact
+### DELETE contact (replace PASTE_ID_HERE with actual ObjectId)
 DELETE http://localhost:8080/contacts/PASTE_ID_HERE
